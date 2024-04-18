@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Feed Record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>View Feed Record</h2>
+        <div class="form-group">
+            <label for="feedId">Feed Record ID:</label>
+            <input type="text" class="form-control" id="feedId">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="viewFeedRecord()">View Record</button>
+        <button type="button" class="btn btn-success"><a href="managing.html">HOME</a></button>
+        <div class="mt-3" id="feedDetails"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function viewFeedRecord() {
+            var feedId = $('#feedId').val();
+            $.get(`/feeds/${feedId}`, function(data) {
+                var feedDetailsHtml = `
+                    <p><strong>ID:</strong> ${data.id}</p>
+                    <p><strong>Farmer ID:</strong> ${data.farmer_id}</p>
+                    <p><strong>Date:</strong> ${data.date}</p>
+                    <p><strong>Type:</strong> ${data.type}</p>
+                    <p><strong>Quantity:</strong> ${data.quantity}</p>
+                `;
+                $('#feedDetails').html(feedDetailsHtml);
+            }).fail(function(xhr, status, error) {
+                $('#feedDetails').html(`<p class="text-danger">${xhr.responseText}</p>`);
+            });
+        }
+    </script>
+</body>
+</html>

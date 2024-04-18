@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Feed Record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Delete Feed Record Form -->
+        <h2>Delete Feed Record</h2>
+        <form id="deleteFeedForm">
+            <div class="form-group">
+                <label for="feedId">Feed Record ID</label>
+                <input type="text" class="form-control" id="feedId" name="feedId" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete Feed Record</button>
+            <button type="button" class="btn btn-success"><a href="managing.html">HOME</a></button>
+        </form>
+    </div>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#deleteFeedForm').submit(function(event) {
+                event.preventDefault();
+                var feedId = $('#feedId').val();
+
+                $.ajax({
+                    url: '/feeds/' + feedId,
+                    type: 'DELETE',
+                    success: function(response) {
+                        console.log(response);
+                        alert('Feed record deleted successfully');
+                        // Optionally, you can redirect to another page or update UI as needed
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('An error occurred while deleting the feed record: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

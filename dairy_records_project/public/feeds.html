@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Records</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Feed Records</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Farmer ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="feedRecords">
+                <!-- Feed records will be dynamically added here -->
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success"><a href="managing.html">HOME</a></button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch all feed records
+            function fetchFeedRecords() {
+                $.get('/feeds', function(data) {
+                    $('#feedRecords').empty(); // Clear existing records
+                    data.forEach(function(record) {
+                        $('#feedRecords').append(`
+                            <tr>
+                                <td>${record.id}</td>
+                                <td>${record.farmer_id}</td>
+                                <td>${record.date}</td>
+                                <td>${record.type}</td>
+                                <td>${record.quantity}</td>
+                            </tr>
+                        `);
+                    });
+                }).fail(function(xhr, status, error) {
+                    console.error('Error fetching feed records:', error);
+                    $('#feedRecords').append(`<tr><td colspan="5" class="text-danger">Error fetching feed records</td></tr>`);
+                });
+            }
+
+            // Fetch feed records when the page loads
+            fetchFeedRecords();
+        });
+    </script>
+</body>
+</html>

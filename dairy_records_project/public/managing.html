@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dairy Farmers Track Record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/cow.jpeg') center/cover no-repeat;
+            background-color: #f5f5f5; /* Light gray fallback */
+            background-position: center top;
+            background-size: cover;
+            color: white;
+        }
+
+        .welcome-wrapper {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            width: 80%;
+            margin: auto;
+        }
+
+        .section {
+            background-color: rgba(0, 0, 0, 0.7); /* Reduced transparency */
+            padding: 20px;
+            border-radius: 10px;
+            border: #f5f5f5 solid 2px;
+            text-align: center;
+            width: 45%;
+            margin: 20px; /* Adjusted margin for spacing around the sections */
+            float: left;
+        }
+
+        .section h2 {
+            color: #fff; /* Colorful text */
+        }
+
+        .section a {
+            display: block;
+            color: #28A745; /* Colorful text */
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-wrapper">
+        <h1>Welcome to Dairy Farmers Track Record Company</h1>
+        <p>Manage all your dairy records conveniently here.</p>
+    </div>
+    <div class="container">
+        <div class="section">
+            <h2>MILK PRODUCTION</h2>
+            <a href="milk_record.html">Add New record</a>
+            <a href="milk_record.html">Update Record</a>
+            <a href="milk_record.html">View All Record</a>
+            <a href="milk_record.html">Delete records</a>
+           
+        </div>
+       
+        <div class="section">
+            <h2>FEEDS</h2>
+            <a href="add-feed.html">New Feeds</a>
+            <a href="feeds.html">Feeds Record</a>
+            <a href="update_delete_feeds.html">Update</a>
+            <a href="update_delete_feeds.html">Delete Record</a>
+        </div>
+        <div class="section">
+            <h2>HEALTH</h2>
+            <a href="createhealthrecord.html">Create new Record</a>
+            <a href="individual_health_record.html">Health Record</a>
+            <a href="update_individual_health.html">Edit record</a>
+            <a href="individual_health_record.html">Health Record</a>
+        </div>
+        
+        <div class="section">
+            <h2>BREEDING</h2>
+            <a href="breeding_record.html">Add New Record</a>
+            <a href="breeding_record.html">Update Breeds</a>
+            <a href="breeding_record.html">view all Breeds</a>
+            <a href="breeding_record.html">Delete Breed</a>
+        </div>
+    </div>
+</body>
+</html>

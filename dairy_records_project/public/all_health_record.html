@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Records Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button[type="button"], .btn-back {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover, .btn-back:hover {
+            background-color: #0056b3;
+        }
+
+        .modal-content {
+            padding: 20px;
+        }
+
+        .modal-body {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .record-details {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Health Records Management</h2>
+        <button type="button" id="getAllRecordsBtn" class="btn btn-primary">Get All Health Records</button>
+        <button type="button" class="btn btn-secondary btn-back">Back to Homepage</button>
+    </div>
+
+    <!-- Health Records Modal -->
+    <div class="modal fade" id="recordsModal" tabindex="-1" role="dialog" aria-labelledby="recordsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recordsModalLabel">Health Records</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="recordsList"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#getAllRecordsBtn').click(function() {
+                // Send GET request to fetch all health records
+                $.ajax({
+                    url: '/health',
+                    type: 'GET',
+                    success: function(records) {
+                        // Populate modal with records
+                        var recordsList = $('#recordsList');
+                        recordsList.empty();
+                        records.forEach(function(record) {
+                            var listItem = $('<li>').html('<span class="record-details">ID:</span> ' + record.id + '<br><span class="record-details">Date:</span> ' + record.date + '<br><span class="record-details">Issue:</span> ' + record.issue + '<br><span class="record-details">Treatment:</span> ' + record.treatment);
+                            recordsList.append(listItem);
+                        });
+                        $('#recordsModal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Failed to fetch health records. Please try again later.');
+                    }
+                });
+            });
+
+            // Back to homepage button click event
+            $('.btn-back').click(function() {
+                // Redirect to the homepage
+                window.location.href = "managing.html";
+            });
+        });
+    </script>
+</body>
+</html>

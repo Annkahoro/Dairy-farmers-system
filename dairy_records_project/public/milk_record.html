@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Production Records</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"], .btn-back {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover, .btn-back:hover {
+            background-color: #0056b3;
+        }
+
+        .modal-content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Milk Production Records</h2>
+        <form id="createRecordForm">
+            <div class="form-group">
+                <label for="farmerId">Farmer ID</label>
+                <input type="text" id="farmerId" name="farmer_id" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity (Liters)</label>
+                <input type="text" id="quantity" name="quantity" required>
+            </div>
+            <button type="submit" id="submitBtn">Add Record</button>
+        </form>
+
+        <div id="recordList"></div>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Load records on page load
+            loadRecords();
+
+            // Submit form to create a new record
+            $('#createRecordForm').submit(function(event) {
+                event.preventDefault();
+                var formData = {
+                    farmer_id: $('#farmerId').val(),
+                    date: $('#date').val(),
+                    quantity: $('#quantity').val()
+                };
+                $.ajax({
+                    url: '/milk_production',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        alert('New record added successfully');
+                        loadRecords();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Failed to add new record');
+                    }
+                });
+            });
+
+            // Function to load records
+            function loadRecords() {
+                $.get('/milk_production', function(records) {
+                    var recordList = $('#recordList');
+                    recordList.empty();
+                    if (records.length === 0) {
+                        recordList.append('<p>No records found</p>');
+                    } else {
+                        records.forEach(function(record) {
+                            recordList.append('<div class="card"><div class="card-body"><h5 class="card-title">Record ID: ' + record.id + '</h5><p class="card-text">Farmer ID: ' + record.farmer_id + '<br>Date: ' + record.date + '<br>Quantity: ' + record.quantity + ' Liters</p><button class="btn btn-primary update-btn" data-id="' + record.id + '">Update</button><button class="btn btn-danger delete-btn" data-id="' + record.id + '">Delete</button></div></div>');
+                        });
+                    }
+                });
+            }
+
+            // Update record button click event
+            $(document).on('click', '.update-btn', function() {
+                var recordId = $(this).data('id');
+                var newQuantity = prompt('Enter new quantity (Liters):');
+                if (newQuantity !== null) {
+                    $.ajax({
+                        url: '/milk_production/' + recordId,
+                        type: 'PUT',
+                        contentType
+                        : 'application/json',
+                        data: JSON.stringify({ quantity: newQuantity }),
+                        success: function(response) {
+                            alert('Record updated successfully');
+                            loadRecords();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Failed to update record');
+                        }
+                    });
+                }
+            });
+
+            // Delete record button click event
+            $(document).on('click', '.delete-btn', function() {
+                var recordId = $(this).data('id');
+                if (confirm('Are you sure you want to delete this record?')) {
+                    $.ajax({
+                        url: '/milk_production/' + recordId,
+                        type: 'DELETE',
+                        success: function(response) {
+                            alert('Record deleted successfully');
+                            loadRecords();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Failed to delete record');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

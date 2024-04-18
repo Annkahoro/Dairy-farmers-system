@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dairy Farmers Track Record</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./images/cow.jpeg') center/cover no-repeat;
+            background-color: #f5f5f5; /* Light gray fallback */
+            background-position: center top;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            width: 50%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .btn-primary {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .btn-secondary {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-group:hover .btn-secondary {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .btn-group:hover .btn-primary:hover ~ .btn-secondary {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Added styles for the login form */
+        .login-form {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-message">
+            <h1>Welcome to our Dairy Farmer Track Record website!</h1>
+            <p>Welcome aboard! Our system is here to simplify your record-keeping. Say goodbye to manual paperwork and hello to accurate, real-time data for informed decision-making. Let's make dairy farming easier together!</p>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onClick="signup()">Sign Up</button>
+            <button type="button" class="btn btn-primary" onClick="toggleLoginForm()">Login</button>
+            <button type="button" class="btn btn-secondary" id="adminBtn">Admin</button>
+        </div>
+
+        <!-- Hidden login form -->
+        <div class="login-form" id="loginForm">
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="Password">
+            <button onclick="submitLoginForm()">Login</button>
+        </div>
+    </div>
+
+    <script>
+        function signup() {
+            window.location.href = "/signup";
+        }
+
+        function toggleLoginForm() {
+            var loginForm = document.getElementById("loginForm");
+            loginForm.style.display = loginForm.style.display === "none" ? "block" : "none"; // Toggle display
+        }
+
+        function submitLoginForm() {
+            // Perform form submission action (e.g., AJAX request)
+            // Upon successful login, redirect the user to '/managing'
+            window.location.href = "/manage";
+            
+            // Hide the login form again
+            var loginForm = document.getElementById("loginForm");
+            loginForm.style.display = "none";
+        }
+
+        document.getElementById("adminBtn").addEventListener("click", function() {
+            window.location.href = "/admin";
+        });
+    </script>
+</body>
+</html>

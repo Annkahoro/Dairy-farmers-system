@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Records Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding-bottom: 50px; /* Added padding at the bottom for the button */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Feed Records Management</h2>
+        
+        <!-- Update Form -->
+        <h3>Update Feed Record</h3>
+        <form id="updateForm">
+            <div class="form-group">
+                <label for="updateFarmerId">Farmer ID</label>
+                <input type="text" id="updateFarmerId" name="farmer_id" required>
+            </div>
+            <div class="form-group">
+                <label for="updateDate">Date</label>
+                <input type="date" id="updateDate" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="updateType">Type</label>
+                <input type="text" id="updateType" name="type" required>
+            </div>
+            <div class="form-group">
+                <label for="updateQuantity">Quantity</label>
+                <input type="text" id="updateQuantity" name="quantity" required>
+            </div>
+            <button type="submit" id="updateBtn">Update Feed Record</button>
+        </form>
+
+        <!-- Delete Form -->
+        <h3>Delete Feed Record</h3>
+        <form id="deleteForm">
+            <div class="form-group">
+                <label for="deleteId">Feed Record ID to Delete</label>
+                <input type="text" id="deleteId" name="id" required>
+            </div>
+            <button type="submit" id="deleteBtn">Delete Feed Record</button>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="modal-title" id="successModalLabel">Success!</h5>
+                    <p>Operation completed successfully.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Failure Modal -->
+    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="failureModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="modal-title" id="failureModalLabel">Error!</h5>
+                    <p>Operation failed. Please try again later.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Update feed record
+            $('#updateForm').submit(function(event) {
+                event.preventDefault();
+                var id = $('#deleteId').val();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '/feeds/' + id,
+                    type: 'PUT',
+                    data: formData,
+                    success: function() {
+                        $('#successModal').modal('show');
+                    },
+                    error: function() {
+                        $('#failureModal').modal('show');
+                    }
+                });
+            });
+
+            // Delete feed record
+            $('#deleteForm').submit(function(event) {
+                event.preventDefault();
+                var id = $('#deleteId').val();
+                $.ajax({
+                    url: '/feeds/' + id,
+                    type: 'DELETE',
+                    success: function() {
+                        $('#successModal').
+                        $('#successModal').modal('show');
+                    },
+                    error: function() {
+                        $('#failureModal').modal('show');
+                    }
+                });
+            });
+
+            // Click event for the home button
+            $('#homeBtn').click(function() {
+                window.location.href = "managing.html";
+            });
+        });
+    </script>
+</body>
+</html>
